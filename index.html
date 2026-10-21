@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Química Play</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===== HAMBURGER ===== -->
+    <button class="hamburger-btn" id="hamburgerBtn" title="Diagramas & Fórmulas">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+
+    <!-- ===== TOP CONTROLS ===== -->
+    <div class="top-controls">
+        <button class="icon-btn" id="themeBtn" title="Alternar tema">🌙</button>
+        <button class="icon-btn" id="statsBtn" title="Ranking">📊</button>
+        <button class="icon-btn admin-global-btn" id="adminGlobalBtn" title="Painel Admin Global">⚙️</button>
+    </div>
+
+    <!-- ===== SIDE PANEL (Diagramas) ===== -->
+    <div class="side-panel-overlay" id="sidePanelOverlay"></div>
+    <aside class="side-panel" id="sidePanel">
+        <div class="side-panel-header">
+            <div>
+                <h2>📐 Diagramas & Fórmulas</h2>
+                <p class="panel-sub">Arraste e use scroll para dar zoom nas imagens</p>
+            </div>
+            <button class="side-panel-close" id="sidePanelClose">✕</button>
+        </div>
+        <div class="side-panel-body">
+            <div class="diagram-tabs" id="diagramTabs">
+                <button class="diagram-tab active" data-cat="all">📚 Tudo</button>
+                <button class="diagram-tab" data-cat="tabela">📊 Tabela Periódica</button>
+                <button class="diagram-tab" data-cat="ligacoes">🔗 Ligações</button>
+                <button class="diagram-tab" data-cat="organica">⚛️ Orgânica</button>
+                <button class="diagram-tab" data-cat="formulas">🧮 Fórmulas</button>
+                <button class="diagram-tab" data-cat="solucoes">💧 Soluções</button>
+                <button class="diagram-tab" data-cat="referencia">📖 Referência</button>
+            </div>
+            <div id="diagramList"></div>
+        </div>
+    </aside>
+
+    <!-- ===== PLAYER BADGE ===== -->
+    <div class="player-badge" id="playerBadge">
+        <div class="player-avatar" id="playerAvatar">?</div>
+        <div class="player-info">
+            <span class="player-name" id="playerNameBadge">Jogador</span>
+            <span class="player-score" id="playerScoreBadge">0 pontos</span>
+        </div>
+        <button class="change-btn" id="changePlayerBtn">🔄</button>
+    </div>
+
+    <!-- ===== TOASTS & MODAL ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- ===== APP (renderizado via JS) ===== -->
+    <div class="app" id="app"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
