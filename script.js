@@ -3457,7 +3457,6 @@ const adminGlobal = {
         <h3>Acesso Administrativo</h3>
         <p class="modal-sub">Digite a senha para acessar o painel global</p>
         <input type="password" id="adminPassInput" class="admin-password-input" placeholder="Senha" autocomplete="off">
-        <p style="font-size:0.75rem;color:var(--text-muted);">Senha padrão: <code style="color:var(--warning)">admin123</code></p>
       </div>
     `;
 
