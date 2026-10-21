@@ -147,9 +147,6 @@ const DEFAULT_VISUAL_CONFIG = {
 };
 
 /* =========================================================
-   DIAGRAMAS PADRÃO
-   ========================================================= */
-/* =========================================================
    DIAGRAMAS MELHORADOS COM SUPORTE A ZOOM
    ========================================================= */
 const DEFAULT_DIAGRAMS = [
@@ -1010,7 +1007,7 @@ const DEFAULT_DIAGRAMS = [
   <line class="bond-d" x1="400" y1="220" x2="340" y2="160"/>
   <line class="bond-d" x1="400" y1="220" x2="460" y2="160"/>
   <line class="bond-d" x1="400" y1="220" x2="400" y2="290"/>
-  <circle class="c-atom" cx="400" cy="220" r="24"/>
+  <circle class="c-atom" x="400" cy="220" r="24"/>
   <text class="c-l" x="400" y="228">C</text>
   <text class="info" x="400" y="340">Trigonal plana · 120°</text>
   <text class="info" x="400" y="360">1 dupla + 2 simples</text>
@@ -1423,6 +1420,17 @@ const theme = {
         this.apply(next);
         storage.saveTheme(next);
         toast.show(`Tema ${next === 'dark' ? 'escuro 🌙' : 'claro ☀️'}`, 'info', 1800);
+    },
+    bind() {
+        const btn = document.getElementById('themeBtn');
+        if (btn) {
+            // Clona o botão para remover todos os listeners antigos (correção do bug)
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.addEventListener('click', () => this.toggle());
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            newBtn.textContent = current === 'dark' ? '🌙' : '☀️';
+        }
     }
 };
 
@@ -2246,12 +2254,13 @@ const hub = {
     },
 
     bindEvents() {
-        const themeBtn = document.getElementById('themeBtn');
+        // Corrigido: Usando theme.bind() que clona o botão e evita listeners duplicados
+        theme.bind();
+
         const statsBtn = document.getElementById('statsBtn');
         const adminGlobalBtn = document.getElementById('adminGlobalBtn');
         const hamburgerBtn = document.getElementById('hamburgerBtn');
 
-        if (themeBtn) themeBtn.addEventListener('click', () => theme.toggle());
         if (statsBtn) statsBtn.addEventListener('click', () => this.openStats());
         if (adminGlobalBtn) adminGlobalBtn.addEventListener('click', () => this.openAdminGlobal());
         if (hamburgerBtn) hamburgerBtn.addEventListener('click', () => panel.toggle());
@@ -3643,6 +3652,7 @@ const adminGlobal = {
           </div>
         </div>
         <div class="admin-actions" style="margin-top:16px;">
+          <button class="btn btn-danger btn-sm" id="landingResetBtn">↺ Restaurar Padrão</button>
           <button class="btn btn-success btn-sm" id="landingSaveBtn">💾 Salvar e Aplicar</button>
         </div>
       </div>
@@ -3650,6 +3660,16 @@ const adminGlobal = {
     },
 
     bindLanding() {
+        const resetBtn = document.getElementById('landingResetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                state.hubConfig.landing = JSON.parse(JSON.stringify(DEFAULT_HUB_CONFIG.landing));
+                storage.saveHubConfig(state.hubConfig);
+                this.setTab('landing');
+                toast.show('Tela inicial restaurada!', 'success');
+            });
+        }
+
         const saveBtn = document.getElementById('landingSaveBtn');
         if (!saveBtn) return;
         saveBtn.addEventListener('click', () => {
@@ -3713,6 +3733,7 @@ const adminGlobal = {
         </div>
         <div class="items-list">${cards}</div>
         <div class="admin-actions" style="margin-top:16px;">
+          <button class="btn btn-danger btn-sm" id="hubResetBtn">↺ Restaurar Padrão</button>
           <button class="btn btn-success btn-sm" id="hubSaveBtn">💾 Salvar e Aplicar</button>
         </div>
       </div>
@@ -3720,6 +3741,16 @@ const adminGlobal = {
     },
 
     bindHub() {
+        const resetBtn = document.getElementById('hubResetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                state.hubConfig.games = JSON.parse(JSON.stringify(DEFAULT_HUB_CONFIG.games));
+                storage.saveHubConfig(state.hubConfig);
+                this.setTab('hub');
+                toast.show('Hub restaurado!', 'success');
+            });
+        }
+
         const saveBtn = document.getElementById('hubSaveBtn');
         if (!saveBtn) return;
         saveBtn.addEventListener('click', () => {
